@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  n8n:
+    image: n8nio/n8n
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./product_codes.json:/data/product_codes.json:ro
+
+  adidas-scraper:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /usr/src/app
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+    command: npm start
+
+volumes:
+  n8n_data:
